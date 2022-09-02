@@ -45,7 +45,7 @@ if uploaded_file is not None:
       dfComponents = pd.read_excel(dbTaqa, 'tbComponents')
       dfTransactions = pd.read_excel(dbTaqa, 'tbTransactions')
 
-     ### Define functions ###
+     #Define functions
       def fnGetCountryName(iCountryID):
            #Returns the country name associated to the given country ID
            if iCountryID > 0: #to avoid 'nan'
@@ -180,7 +180,7 @@ if uploaded_file is not None:
            return round(dTheoreticalDiscountAmountUSD,2)
 
       def fnGetRawMaterialCostUSD(row):
-           #Returns the cost of raw materials for each product"""
+           #Returns the cost of raw materials for each product
            dfTmpProducts = dfComposition.merge(dfComponents, how='left', left_on='iSubComponentID', right_on='iComponentID')
            dfTmpProducts = dfTmpProducts[(dfTmpProducts['iComponentID_x'] == row['iSubComponentID'])&(dfTmpProducts['strComponentType'] == 'Raw material')]
            dfTmpProducts['dTotalCostUSD'] = dfTmpProducts['dSubComponentQuantity'] * dfTmpProducts['dUnitCost'] / 1000
@@ -243,7 +243,7 @@ if uploaded_file is not None:
            return round(dfTmpProducts['dOtherIndirectCostsUSD'].sum(),2)
 
       def fnGetMarketType(row):
-           #Returns the market type (local or export) associated to each transaction"""
+           #Returns the market type (local or export) associated to each transaction
            strRes = ''
            if fnGetCountryAlpha2(fnGetCustomerCountry(row['iCustomerID'])) == 'LB':
                 strRes = 'Local'
@@ -313,9 +313,6 @@ if uploaded_file is not None:
       strTime = time.strftime('%d%m%Y')
       st.download_button(label='📥Download Profitability Fact Table', data=dfProfitability_xlsx, file_name='Taqa_Profitability_Fact'+strTime+'.xlsx')
 
-      #if st.download_button():
-           #st.write('You can now upload this profitability fact table onto PowerBI!')
-
 else: 
-      # Show warning if dataset not uploaded yet st.warning("Please Upload a Dataset in the Data Upload Slot Above")
+      # Show warning if dataset not uploaded yet
       st.warning("Please Upload your Excel File in the Data Upload Slot Above")
